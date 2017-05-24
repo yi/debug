@@ -40,6 +40,10 @@ function useColors() {
   // NB: In an Electron preload script, document will be defined but not fully
   // initialized. Since we know we're in Chrome, we'll just detect this case
   // explicitly
+  if (typeof wx !== 'undefined') {
+    return true
+  }
+
   if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
     return true;
   }
@@ -116,11 +120,12 @@ function formatArgs(args) {
  */
 
 function log() {
+  console.log.apply(console, arguments);
   // this hackery is required for IE8/9, where
   // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
+  //return 'object' === typeof console
+    //&& console.log
+    //&& Function.prototype.apply.call(console.log, console, arguments);
 }
 
 /**
